@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+
+#ngrok
+runMain.bat
+ngrok.exe
+runNgrok.bat
+
 # Distribution / packaging
 .Python
 build/
