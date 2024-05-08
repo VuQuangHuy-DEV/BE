@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from firebase_admin import messaging
+#from firebase_admin import messaging
 
 ##from api.services.firebase import send_push_notification
 from ultis.api_helper import api_decorator

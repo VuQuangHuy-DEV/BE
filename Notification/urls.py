@@ -2,7 +2,7 @@ from django.urls import path
 
 from Notification.views import RegisterDeviceToken, DeleteDeviceToken, SendPushNotification, NotificationDetailView, \
     NotiListByUser, \
-    NotiListReadsByUser,CrateNewNotiView,NotificationNotiDetailView,NotiListReadsByUser
+CrateNewNotiView,NotificationNotiDetailView,NotiListReadsByUser
 
 urlpatterns = [
     path('register/', RegisterDeviceToken.as_view()),
