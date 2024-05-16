@@ -9,6 +9,9 @@ from datetime import datetime, timedelta
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import pre_save
+
+from django.contrib.auth.hashers import make_password
+
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.models import (
@@ -108,6 +111,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return token
 
 
+
 class OTP(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -158,6 +162,8 @@ def generate_otp(sender, instance, **kwargs):
         instance.code = ''.join(random.choices(string.digits, k=6))
 
 
+
+
 class NhanVien(User):
     idnv = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ma_nhan_vien = models.CharField(max_length=100)
@@ -169,5 +175,26 @@ class NhanVien(User):
 
         # Kết hợp chuỗi 'KH' với 6 số ngẫu nhiên
         self.ma_khach_hang = 'NV' + so_ngau_nhien
+
+    def pre_save(self):
+        print('Hello')
+
+
+@receiver(pre_save, sender=NhanVien)
+def hash_password(sender, instance, **kwargs):
+    # Only hash the password if it's been changed or it's a new user
+    if not instance.pk or instance._state.adding or instance.password != sender.objects.get(pk=instance.pk).password:
+        instance.set_password(instance.password)
+
+@receiver(pre_save, sender=User)
+def hash_password(sender, instance, **kwargs):
+    # Only hash the password if it's been changed or it's a new user
+    if not instance.pk or instance._state.adding or instance.password != sender.objects.get(pk=instance.pk).password:
+        instance.set_password(instance.password)
+@receiver(pre_save, sender=KhachHang)
+def hash_password(sender, instance, **kwargs):
+    # Only hash the password if it's been changed or it's a new user
+    if not instance.pk or instance._state.adding or instance.password != sender.objects.get(pk=instance.pk).password:
+        instance.set_password(instance.password)
 
 

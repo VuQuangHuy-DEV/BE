@@ -7,7 +7,9 @@ from Authentication.views import LoginAPIView, RegisterAPIView, VerifyUserView, 
 from Authentication.views import (GetListKhachHangAPIView,GetInfoKhachHangAPIView,RegisterKhachHangAPIView
                                   ,GetKhachHangInfoAPIView,KhachHangLoginAPIView,
                                   ChangePWKhachHangAPIView,
-                                  KhachHangDetailAPIView)
+                                  KhachHangDetailAPIView,
+                                  UpdateKhachHangInfoAPIView,
+                                  UpdateKhachHangForMNAPIView)
 
 
 
@@ -31,6 +33,13 @@ urlpatterns = [
     path("khachhang/login/", KhachHangLoginAPIView.as_view()),
     path("khachhang/detail/<str:idkh>/", KhachHangDetailAPIView.as_view()),
     path("khachhang/change-password/", ChangePWKhachHangAPIView.as_view()),
+    path("khachhang/update-auth/", UpdateKhachHangInfoAPIView.as_view()),
+    path("khachhang/update-nonauth/<str:idkh>/", UpdateKhachHangForMNAPIView.as_view()),
+
+
+
+
+
 
 
     #nhân viên

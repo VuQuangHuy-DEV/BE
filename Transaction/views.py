@@ -20,9 +20,12 @@ class ListCreateGiaoDichView(generics.ListCreateAPIView):
     queryset = GiaoDich.objects.all()
     serializer_class = GiaoDichSerializer
 
+class DetailUpdateGiaoDichView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = GiaoDich.objects.all()
+    serializer_class = GiaoDichSerializer
+
 
 class ListGetGiaoDichByKHIDAPIView(APIView):
-
     @api_decorator
     def get(self, request,id):
         queryset = GiaoDich.objects.filter(Q(khach_hang_thue=id) | Q( nhan_vien_thuc_hien=id))

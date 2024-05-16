@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from Authentication.models import User, OTP, KhachHang, NhanVien
 from Authentication.serializers import LoginSerializer, VerifyUserSerializer, CreateAdminUserSerializer, \
     AdminUserLoginSerializer, UpdateAdminPasswordSerializer, ResetAdminPasswordSerializer, GetUserInfoSerializer, \
-    UpdateUserInfoSerializer, GetKhachHangInfoSerializer
+    UpdateUserInfoSerializer, GetKhachHangInfoSerializer,KhachHangUpdateSerializer
 
 from Authentication.serializers import KhachHangGetListSerializer, NhanVienGetListSerializer
 from core import settings
@@ -197,7 +197,7 @@ class ChangePWKhachHangAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     @api_decorator
-    def get(self, request):
+    def post(self, request):
         password = request.data.get('password')
         password1 = request.data.get('password1')
         password2 = request.data.get('password2')
@@ -206,7 +206,7 @@ class ChangePWKhachHangAPIView(APIView):
         if not user.check_password(password):
             return {}, "Mật khẩu không chính xác", status.HTTP_400_BAD_REQUEST
         elif password1 == password2:
-            user.set_password(password1)
+            user.password=password1
         else:
             return {}, "Mật khẩu không giống nhau", status.HTTP_400_BAD_REQUEST
 
@@ -264,7 +264,7 @@ class KhachHangLoginAPIView(APIView):
 class GetListKhachHangAPIView(APIView):
     @api_decorator
     def get(self, request):
-        khachHang = KhachHang.objects.all()
+        khachHang = KhachHang.objects.filter().order_by('-created_at')
         serializer = KhachHangGetListSerializer(khachHang, many=True)
         data = serializer.data
         return data, "Retrieve data successfully", status.HTTP_200_OK
@@ -293,7 +293,7 @@ class RegisterKhachHangAPIView(APIView):
 
     @api_decorator
     def post(self, request):
-        name = request.data.get('name', None)
+        name = request.data.get('ho_ten', None)
         email = request.data.get('email', None)
         phone_number = request.data.get('phone_number', None)
         password1 = request.data.get('password1', None)
@@ -465,7 +465,7 @@ class ChangePWNhanVienAPIView(APIView):
         if not user.check_password(password):
             return {}, "Mật khẩu không chính xác", status.HTTP_400_BAD_REQUEST
         elif password1 == password2:
-            user.set_password(password1)
+            user.password = password1
         else:
             return {}, "Mật khẩu không giống nhau", status.HTTP_400_BAD_REQUEST
 
@@ -494,3 +494,32 @@ class ForgotPWNhanVienAPIView(APIView):
 
         return {}, "Khôi phục mật khẩu thành công", status.HTTP_200_OK
 
+class UpdateKhachHangInfoAPIView(APIView):
+        permission_classes = (IsAuthenticated,)
+        @api_decorator
+        def put(self, request):
+            phone_number = request.user.phone_number
+
+            if not KhachHang.objects.filter(phone_number=phone_number).exists():
+                raise ValueError("Khách Hàng không tồn tại")
+
+            user = KhachHang.objects.get(phone_number=phone_number)
+            user.anh_dai_dien= request.data.get("anh_dai_dien")
+            user.save()
+            serializer = KhachHangUpdateSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return serializer.data, "Cập nhật thành công", status.HTTP_200_OK
+
+
+class UpdateKhachHangForMNAPIView(APIView):
+    @api_decorator
+    def put(self, request,idkh):
+        if not KhachHang.objects.filter(idkh=idkh).exists():
+            raise ValueError("Khách Hàng không tồn tại")
+
+        user = KhachHang.objects.get(idkh=idkh)
+        serializer = KhachHangUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return serializer.data, "Cập nhật thành công", status.HTTP_200_OK

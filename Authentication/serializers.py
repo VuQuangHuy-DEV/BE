@@ -124,8 +124,12 @@ class UpdateUserInfoSerializer(serializers.ModelSerializer):
         return data
 
 
+
+
+
 # Khách hàng
 class KhachHangGetListSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = KhachHang
         exclude = ['password','last_login','is_superuser','groups','user_permissions']
@@ -135,6 +139,18 @@ class KhachHangGetListSerializer(serializers.ModelSerializer):
         data['anh_dai_dien'] = "https://"+ data['anh_dai_dien'][10:]
         return data
 
+
+class KhachHangUpdateSerializer(serializers.ModelSerializer):
+    anh_dai_dien_url = serializers.URLField(source='anh_dai_dien', required=False)
+
+    class Meta:
+        model = KhachHang
+        exclude = ['password', 'last_login', 'is_superuser', 'groups', 'user_permissions']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][10:]
+        return data
 
 class NhanVienGetListSerializer(serializers.ModelSerializer):
     class Meta:

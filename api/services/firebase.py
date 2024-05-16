@@ -1,13 +1,13 @@
-# from firebase_admin import messaging
-#
-# import firebase_admin
-# from firebase_admin import credentials
-# from Notification.models import Notification
-#
-# cred = credentials.Certificate("serviceAccountKey.json")
-# firebase_admin.initialize_app(cred)
-#
-#
+from firebase_admin import messaging
+
+import firebase_admin
+from firebase_admin import credentials
+from Notification.models import Notification
+
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
+
+
 # def send_push_notification(device_token, title, body,data,user):
 #     try:
 #         message = messaging.Message(
