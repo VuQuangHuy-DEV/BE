@@ -9,3 +9,8 @@ class GiaoDichSerializer(serializers.ModelSerializer):
     class Meta:
         model = GiaoDich
         fields = '__all__'
+
+class GiaoDichCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GiaoDich
+        fields = '__all__'

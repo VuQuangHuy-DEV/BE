@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from ultis.api_helper import api_decorator
 from .models import GiaoDich
-from .serializers import GiaoDichSerializer
+from .serializers import GiaoDichSerializer,GiaoDichCreateSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,6 +19,11 @@ from django.db.models import Q
 class ListCreateGiaoDichView(generics.ListCreateAPIView):
     queryset = GiaoDich.objects.all()
     serializer_class = GiaoDichSerializer
+
+
+class CreateGiaoDichView(generics.ListCreateAPIView):
+    queryset = GiaoDich.objects.all()
+    serializer_class = GiaoDichCreateSerializer
 
 class DetailUpdateGiaoDichView(generics.RetrieveUpdateDestroyAPIView):
     queryset = GiaoDich.objects.all()

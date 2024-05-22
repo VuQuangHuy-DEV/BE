@@ -20,5 +20,6 @@ class Notification(models.Model):
         return self.tieu_de
 
     def mark_as_read(self):
-        self.is_read = True
+        self.da_doc = True
         self.save()
+

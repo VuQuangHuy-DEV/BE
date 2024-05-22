@@ -136,7 +136,15 @@ class KhachHangGetListSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['anh_dai_dien'] = "https://"+ data['anh_dai_dien'][10:]
+
+        if "8000" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][31:]
+        elif "ngrok-free.app" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][51:]
+        elif "pythonanywhere.com" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][49:]
+        else:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][10:]
         return data
 
 
@@ -149,8 +157,16 @@ class KhachHangUpdateSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][10:]
+        if "8000" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][31:]
+        elif "ngrok-free.app" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][51:]
+        elif "pythonanywhere.com" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][49:]
+        else:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][10:]
         return data
+
 
 class NhanVienGetListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -159,5 +175,12 @@ class NhanVienGetListSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['anh_dai_dien'] = "https://"+ data['anh_dai_dien'][10:]
+        if "8000" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][31:]
+        elif "ngrok-free.app" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][51:]
+        elif "pythonanywhere.com" in data['anh_dai_dien']:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][49:]
+        else:
+            data['anh_dai_dien'] = "https://" + data['anh_dai_dien'][10:]
         return data

@@ -24,7 +24,7 @@ class GiaoDich(models.Model):
     ghi_chu = models.CharField(max_length=300, null=True)
     dia_chi_lam_viec = models.CharField(max_length=200,default="Hồ Chí Minh")
     khach_hang_thue = models.ForeignKey(KhachHang, on_delete=models.CASCADE, null=True)
-    nhan_vien_thuc_hien = models.ForeignKey(KhachHang, on_delete=models.CASCADE, null=True,related_name="nhan_vien_lam")
+    nhan_vien_thuc_hien = models.ForeignKey(KhachHang, on_delete=models.CASCADE, null=True,related_name="nhan_vien_lam",)
     hinh_thuc_thanh_toan = models.CharField(max_length=20, default="Thu tiền tại nhà")
     loai_giao_dich = models.CharField(max_length=20, choices=TYPE_CHOICES, default="single")
     create_at = models.DateTimeField(auto_now=True,null=True)

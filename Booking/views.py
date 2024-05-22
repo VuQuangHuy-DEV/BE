@@ -117,9 +117,21 @@ class BookingApproveAPIView(APIView):
 
 class BookingrefuseAPIView(APIView):
     @api_decorator
-    def get(self, request, pk):
+    def post(self, request, pk):
         baithue = BaiThue.objects.get(id=pk)
-        baithue.tu_choi()
+        ly_do = request.data.get("reason")
+        baithue.tu_choi(ly_do)
         serializer = BookingDetailSerializer(baithue)
-         # Gọi phương thức duyet_bai mà không truyền tham số
+        return serializer.data, "Retrieve data successfully", status.HTTP_200_OK
+
+
+class BookingFilterByTitleListAPIView(APIView):
+    @api_decorator
+    def get(self, request, title):
+        if title =="":
+            posts = BaiThue.objects.filter().order_by('-created_at')
+        else:
+            posts = BaiThue.objects.filter(tieu_de__icontains=title).order_by('-created_at')
+        serializer = BookingListSerializer(posts, many=True)
+
         return serializer.data, "Retrieve data successfully", status.HTTP_200_OK

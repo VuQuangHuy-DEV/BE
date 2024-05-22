@@ -37,7 +37,7 @@ def get_full_image_url(request, file_path):
     full_url = f"http://{domain}{file_path}"
     # huy add
     full_url = f"{file_path}"
-    return full_url
+    return file_path
 
 
 def convert_phone_number(raw_phone_number):

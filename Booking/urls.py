@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import BookingListAPIView, BookingFilterListAPIView, CreateBookingAPIView, BookingDetailAPIView, \
-    BookingByUserListAPIView,BookingListByKhachHangAPIView,BookingApproveAPIView,BookingrefuseAPIView
+    BookingByUserListAPIView,BookingListByKhachHangAPIView,BookingApproveAPIView,BookingrefuseAPIView,BookingFilterByTitleListAPIView
 
 urlpatterns = [
     path('posts/', BookingListAPIView.as_view()),
@@ -14,5 +14,10 @@ urlpatterns = [
     path('post/approve/<str:pk>/', BookingApproveAPIView.as_view()),
     path('post/refuse/<str:pk>/', BookingrefuseAPIView.as_view()),
     path('posts/bykhachhang/<str:idkh>/', BookingListByKhachHangAPIView.as_view()),
+
+    # tìm theo tieeu đề
+    path('posts/title/<str:title>/', BookingFilterByTitleListAPIView.as_view()),
+
+
 
 ]

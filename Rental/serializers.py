@@ -22,9 +22,6 @@ class BaiTimViecsSerializer(serializers.ModelSerializer):
         model = BaiTimViec
         fields = '__all__'
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        return data
 
 
 class RentalCreateSerializer(serializers.ModelSerializer):
@@ -74,7 +71,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RentalDetailSerializer(serializers.ModelSerializer):
-    khach_hang = serializers.StringRelatedField()
+    khach_hang_id = KhachHangGetListSerializer()
     ngay_khoi_tao = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S", read_only=True)
 
     class Meta:

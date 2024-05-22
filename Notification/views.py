@@ -94,6 +94,7 @@ class NotificationDetailView(APIView):
     def get(self, request, pk):
         queryset = Notification.objects.get(id=pk, user=request.user.id)
         queryset.mark_as_read()
+        queryset.save()
         serializer = NotificationSerializer(queryset, context={'request': request})
         return serializer.data, "Read", status.HTTP_200_OK
 class NotificationNotiDetailView(APIView):
@@ -101,6 +102,8 @@ class NotificationNotiDetailView(APIView):
     def get(self, request, pk):
         queryset = Notification.objects.get(id=pk)
         queryset.mark_as_read()
+        queryset.is_read = True
+
         serializer = NotificationSerializer(queryset, context={'request': request})
         return serializer.data, "Read", status.HTTP_200_OK
 
@@ -121,9 +124,9 @@ class NotiListReadsByUser(APIView):
     def get(self, request,id):
         queryset = Notification.objects.filter(Q(user=id) | Q(loai='All'))
 
-        with transaction.atomic():
-            for notification in queryset:
-                notification.mark_as_read()
+        # with transaction.atomic():
+        #     for notification in queryset:
+        #         notification.mark_as_read()
 
         serializer = NotificationSerializer(queryset, many=True)
         return serializer.data, "Read all notice", status.HTTP_200_OK

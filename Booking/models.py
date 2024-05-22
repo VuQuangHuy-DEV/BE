@@ -22,6 +22,7 @@ class BaiThue(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     da_duyet = models.BooleanField(default= False)
     dia_chi = models.CharField(max_length=100, default="Hồ Chí Minh")
+    ly_do = models.CharField(max_length = 150, default = "Vi phạm tiêu chuẩn cộng đồng")
 
     def __str__(self):
         return self.tieu_de
@@ -29,6 +30,8 @@ class BaiThue(models.Model):
     def duyet_bai(self):
         self.da_duyet = True
         self.save()
-    def tu_choi(self):
+    def tu_choi(self, ly_do):
         self.da_duyet = False
+        self.ly_do = ly_do
+
         self.save()

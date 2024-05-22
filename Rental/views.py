@@ -17,7 +17,6 @@ class RentalListAPIView(APIView):
         posts = BaiTimViec.objects.all().order_by('ngay_khoi_tao')
         serializer = BaiTimViecsSerializer(posts, many=True, context={'request': request})
 
-
         return serializer.data, "Retrieve data successfully", status.HTTP_200_OK
 
 
@@ -33,7 +32,6 @@ class RentalCreateAPIView(APIView):
             return serializer.data, "Create rental post successfully", status.HTTP_201_CREATED
 
 
-
 # Chi tiết một bài Tìm việc
 class RentalDetailAPIView(APIView):
     @api_decorator
@@ -41,6 +39,8 @@ class RentalDetailAPIView(APIView):
         queryset = BaiTimViec.objects.get(id=pk)
         serializer = RentalDetailSerializer(queryset, context={'request': request})
         return serializer.data, "Retrieve data successfully", status.HTTP_200_OK
+
+
 class RentalFilterListAPIView(APIView):
     @api_decorator
     def get(self, request, pk):
@@ -70,7 +70,7 @@ class RentalRelativeListAPIView(APIView):
 
 class RentalListFromUserAPIView(APIView):
     @api_decorator
-    def get(self, request, pk):
+    def get(self, request, idkh):
         user = User.objects.get(id=pk)
         posts = BaiTimViec.objects.filter(user=user).order_by('-created_at')
 
@@ -81,5 +81,44 @@ class RentalListFromUserAPIView(APIView):
 
         return data, "Retrieve data successfully", status.HTTP_200_OK
 
+class RentalListByKhachHangAPIView(APIView):
+    @api_decorator
+    def get(self, request):
+        posts = BaiTimViec.objects.filter().order_by('-ngay_khoi_tao    ')
+
+        serializer = RentalDetailSerializer(posts, many=True)
+        data = serializer.data
+        return data, "Retrieve data successfully", status.HTTP_200_OK
+
+    @api_decorator
+    def get(self, request,idkh):
+        khachhang = KhachHang.objects.get(idkh=idkh)
+        posts = BaiTimViec.objects.filter(khach_hang_id=khachhang).order_by('-ngay_khoi_tao')
+        serializer = RentalDetailSerializer(posts, many=True)
+        return serializer.data, "Retrieve data successfully", status.HTTP_200_OK
+
+class RentalApproveAPIView(APIView):
+    @api_decorator
+    def get(self, request, pk):
+        baitimviec = BaiTimViec.objects.get(id=pk)
+        baitimviec.duyet_bai()
+        serializer = RentalDetailSerializer(baitimviec)
+        # Gọi phương thức duyet_bai mà không truyền tham số
+        return serializer.data, "Retrieve data successfully", status.HTTP_200_OK
 
 
+class RentalRefuseAPIView(APIView):
+    @api_decorator
+    def post(self, request, pk):
+        baitimviec = BaiTimViec.objects.get(id=pk)
+        ly_do = request.data.get("reason")
+        baitimviec.tu_choi(ly_do)
+        serializer = RentalDetailSerializer(baitimviec)
+        # Gọi phương thức duyet_bai mà không truyền tham số
+        return serializer.data, "Retrieve data successfully", status.HTTP_200_OK
+
+
+class RentalByMultilFieldAPIView(APIView):
+    @api_decorator
+    def get(self,request):
+        pass
