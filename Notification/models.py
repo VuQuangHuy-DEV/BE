@@ -23,3 +23,7 @@ class Notification(models.Model):
         self.da_doc = True
         self.save()
 
+    class Meta:
+        verbose_name="Thông Báo"
+        verbose_name_plural = "Thông Báo"
+

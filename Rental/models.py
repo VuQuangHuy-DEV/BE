@@ -41,5 +41,8 @@ class BaiTimViec(models.Model):
         self.ly_do = ly_do
         self.da_duyet = False
         self.save()
+    class Meta:
+        verbose_name = "Bài Tìm Việc"
+        verbose_name_plural = "Bài Tìm Việc"
 
 

@@ -32,6 +32,9 @@ class GiaoDich(models.Model):
     def __str__(self):
         return f'Giao dịch {self.trang_thai}'
 
+    class Meta:
+        verbose_name ="Giao Dịch"
+        verbose_name_plural="Giao Dịch"
 #
 # class ChiTietGiaoDich(models.Model):
 #     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -35,6 +35,11 @@ class HopDong(models.Model):
         return f"{self.nguoi_lao_dong.id}'s hợp đồng với phía công ty {self.cong_ty}"
 
 
+    class Meta:
+        verbose_name = "Điều Khoản Công Ty"
+        verbose_name_plural = "Điểu khoản công ty"
+
+
 # class DichVu(models.Model):
 #     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 #     ten_dich_vu = models.CharField(max_length=200)

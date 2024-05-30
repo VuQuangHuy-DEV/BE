@@ -74,7 +74,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     ngay_sinh = models.DateField(null=True)
     ngay_khoi_tao = models.DateField(null=True)
     date_expired = models.DateField(null=True)
-    place_issued = models.CharField(max_length=200, blank=True)
     dia_chi = models.CharField(max_length=200, blank=True)
     anh_dai_dien = models.ImageField(default='res.cloudinary.com/dtwy0ch1a/image/upload/v1712333902/avatarDefault.png')
 
@@ -143,6 +142,10 @@ class KhachHang(User):
         # Kết hợp chuỗi 'KH' với 6 số ngẫu nhiên
         self.ma_khach_hang = 'KH' + so_ngau_nhien
 
+    class Meta:
+        verbose_name = "Khách Hàng"
+        verbose_name_plural = "Khách Hàng"
+
 
 class UserReview(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -176,8 +179,9 @@ class NhanVien(User):
         # Kết hợp chuỗi 'KH' với 6 số ngẫu nhiên
         self.ma_khach_hang = 'NV' + so_ngau_nhien
 
-    def pre_save(self):
-        print('Hello')
+    class Meta:
+        verbose_name = "Nhân Viên"
+        verbose_name_plural = "Nhân Viên"
 
 
 @receiver(pre_save, sender=NhanVien)

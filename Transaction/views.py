@@ -17,7 +17,7 @@ from django.db.models import Q
 
 
 class ListCreateGiaoDichView(generics.ListCreateAPIView):
-    queryset = GiaoDich.objects.all()
+    queryset = GiaoDich.objects.all().order_by('-create_at')
     serializer_class = GiaoDichSerializer
 
 
@@ -33,7 +33,7 @@ class DetailUpdateGiaoDichView(generics.RetrieveUpdateDestroyAPIView):
 class ListGetGiaoDichByKHIDAPIView(APIView):
     @api_decorator
     def get(self, request,id):
-        queryset = GiaoDich.objects.filter(Q(khach_hang_thue=id) | Q( nhan_vien_thuc_hien=id))
+        queryset = GiaoDich.objects.filter(Q(khach_hang_thue=id) | Q( nhan_vien_thuc_hien=id)).order_by('-create_at')
         serializer = GiaoDichSerializer(queryset, many=True)
         return serializer.data, "Get Giao Gich By khach id Successfull", status.HTTP_200_OK
 
